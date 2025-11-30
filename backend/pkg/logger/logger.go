@@ -91,6 +91,10 @@ func InitLogger(cfg config.Config) Logger {
 	return appLogger
 }
 
+func GetLoggerWithDefaultOptions() Logger {
+	return initLogger(DefaultLoggerOption)
+}
+
 type logger struct {
 	mu       *sync.RWMutex
 	log      *zap.Logger
