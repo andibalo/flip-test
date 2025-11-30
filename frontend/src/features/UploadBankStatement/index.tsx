@@ -8,7 +8,7 @@ import { Transaction } from '@/services/transaction/types';
 import { DEFAULT_PAGE_SIZE, useUploadBankStatement } from './hooks';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './UploadBankStatement.module.css';
-import { COL_WIDTH_LARGE, COL_WIDTH_MEDIUM, COL_WIDTH_SMALL, COL_WIDTH_XSMALL } from '@/components/Table/constant';
+import { COL_WIDTH_LARGE, COL_WIDTH_SMALL, COL_WIDTH_XSMALL } from '@/components/Table/constant';
 
 export const UploadBankStatement = () => {
     const {
