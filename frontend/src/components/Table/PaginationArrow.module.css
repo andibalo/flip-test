@@ -1,0 +1,78 @@
+.paginationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.itemCount {
+    flex: 1;
+    text-align: center;
+}
+
+.countText {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 12px;
+    align-self: flex-end;
+}
+
+.buttonGroupRight {
+    display: flex;
+    gap: 12px;
+    align-self: flex-end;
+    padding: 0 20px;
+}
+
+.arrowButton {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.arrowButton:hover:not(:disabled) {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.arrowButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .paginationContainer {
+        padding: 0 16px;
+    }
+
+    .buttonGroupRight {
+        padding: 0 16px;
+    }
+
+    .countText {
+        font-size: 13px;
+    }
+
+    .buttonGroup {
+        gap: 8px;
+    }
+
+    .buttonGroupRight {
+        gap: 8px;
+    }
+}
