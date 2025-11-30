@@ -1,0 +1,28 @@
+1624507883,JOHN DOE,DEBIT,250000,SUCCESS,restaurant
+1624608050,E-COMMERCE A,DEBIT,150000,FAILED,clothes
+1624512883,COMPANY A,CREDIT,12000000,SUCCESS,salary
+1624615065,E-COMMERCE B,DEBIT,150000,PENDING,clothes
+1624620000,JANE SMITH,CREDIT,500000,SUCCESS,freelance payment
+1624625000,COFFEE SHOP,DEBIT,45000,SUCCESS,coffee
+1624630000,GROCERY STORE,DEBIT,320000,SUCCESS,groceries
+1624635000,ATM WITHDRAWAL,DEBIT,1000000,FAILED,cash withdrawal
+1624640000,NETFLIX,DEBIT,150000,PENDING,monthly subscription payment for premium plan
+1624645000,UBER TRIP,DEBIT,75000,FAILED,ride to airport terminal 3 with heavy traffic delay and driver taking a detour
+1624650000,SPOTIFY,DEBIT,50000,PENDING,music streaming family plan renewal
+1624655000,ELECTRICITY BILL,DEBIT,450000,FAILED,monthly electricity token purchase for home
+1624660000,INTERNET PROVIDER,DEBIT,350000,PENDING,high speed fiber internet bill june 2025
+1624665000,MOBILE DATA,DEBIT,100000,FAILED,data package 50gb purchase failed due to insufficient balance
+1624670000,ONLINE COURSE,DEBIT,2500000,PENDING,advanced react and nextjs masterclass enrollment fee
+1624675000,GYM MEMBERSHIP,DEBIT,500000,FAILED,monthly gym access fee auto debit failure
+1624680000,INSURANCE,DEBIT,1500000,PENDING,health and life insurance monthly premium
+1624685000,TRANSFER TO BOB,DEBIT,200000,FAILED,transfer to friend for dinner split bill
+1624690000,CREDIT CARD PAYMENT,DEBIT,5000000,PENDING,monthly credit card bill payment minimum amount
+1624695000,E-COMMERCE C,DEBIT,890000,FAILED,purchase of mechanical keyboard keycaps set limited edition colorway
+1624700000,SUBSCRIPTION BOX,DEBIT,300000,PENDING,monthly snack box subscription delivery
+1624705000,WATER BILL,DEBIT,120000,FAILED,municipal water bill payment transaction error
+1624710000,GAS STATION,DEBIT,350000,PENDING,fuel tank refill full tank unleaded
+1624715000,RESTAURANT B,DEBIT,450000,FAILED,family dinner celebration payment declined due to suspected fraud activity
+1624720000,HOTEL BOOKING,DEBIT,2500000,PENDING,weekend getaway hotel reservation deposit
+1624725000,FLIGHT TICKET,DEBIT,1800000,FAILED,flight to bali booking transaction timeout
+1624730000,MOVIE TICKETS,DEBIT,150000,PENDING,cinema tickets for weekend blockbuster premiere
+1624735000,GAME STORE,DEBIT,800000,FAILED,digital game copy purchase transaction rejected by payment gateway

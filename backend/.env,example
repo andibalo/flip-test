@@ -1,0 +1,4 @@
+APP_ENV=DEV
+APP_VERSION=0.1
+APP_URL=http://localhost:8081
+APP_ID=transaction-service
