@@ -41,8 +41,12 @@ func InitConfig() *AppConfig {
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
-		fmt.Println("Env config file not found")
-		panic(err)
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			fmt.Println("Env config file not found, using environment variables")
+		} else {
+			fmt.Println("Error reading config file")
+			panic(err)
+		}
 	}
 
 	return &AppConfig{

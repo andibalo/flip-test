@@ -37,7 +37,7 @@ export function useUploadBankStatement() {
                 description: `Successfully uploaded ${result.transactions_uploaded} transactions`,
             });
 
-            await Promise.all([fetchBalance(), fetchUnsuccessfulTransactions()]);
+            await Promise.all([fetchBalance(), fetchUnsuccessfulTransactions(1, DEFAULT_PAGE_SIZE)]);
 
         } catch (error: any) {
             showToast({

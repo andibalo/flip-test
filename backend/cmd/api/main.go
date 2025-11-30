@@ -30,7 +30,7 @@ func main() {
 	router.Use(middleware.LogPreReq(appLogger))
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:3000", "http://localhost:5173"}
+	corsConfig.AllowOrigins = []string{"http://localhost", "http://localhost:3000", "http://localhost:5173"}
 	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
 	corsConfig.AllowHeaders = []string{"Origin", "Content-Type", "Accept", "Authorization"}
 	router.Use(cors.New(corsConfig))
