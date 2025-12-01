@@ -27,6 +27,7 @@ func main() {
 
 	router := gin.Default()
 
+	router.Use(middleware.RequestID())
 	router.Use(middleware.LogPreReq(appLogger))
 
 	corsConfig := cors.DefaultConfig()

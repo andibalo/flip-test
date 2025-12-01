@@ -80,6 +80,7 @@ func InitLogger(cfg config.Config) Logger {
 				"broker":      "broker",
 				"trace.id":    "trace.id",
 				"span.id":     "span.id",
+				"request_id":  "request_id",
 			},
 			Level:     LevelInfo,
 			HookLevel: LevelError,
