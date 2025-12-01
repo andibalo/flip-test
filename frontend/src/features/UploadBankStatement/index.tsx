@@ -22,6 +22,7 @@ export const UploadBankStatement = () => {
         isLoadingBalance,
         isLoadingTransactions,
         handlePageChange,
+        handleSort
     } = useUploadBankStatement();
 
     const columns: Column[] = [
@@ -150,6 +151,13 @@ export const UploadBankStatement = () => {
                         pageSize={DEFAULT_PAGE_SIZE}
                         paginationLayout="showItemCount"
                         isLoading={isLoadingTransactions}
+                        initialSort={
+                            {
+                                key: 'timestamp',
+                                direction: 'desc',
+                            }
+                        }
+                        onSort={handleSort}
                     />
                 </div>
             </Container>

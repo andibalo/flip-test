@@ -142,7 +142,7 @@ export const CsvUploader: React.FC<CsvUploaderProps> = ({
                             className={styles.fileInput}
                             id="csv-upload"
                         />
-                        <label htmlFor="csv-upload" className={styles.browseButton}>
+                        <label className={styles.browseButton}>
                             Browse Files
                         </label>
                     </>

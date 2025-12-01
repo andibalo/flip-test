@@ -184,6 +184,7 @@ func (tc *TransactionController) GetIssues(c *gin.Context) {
 		CurrentElements: int64(len(transactions)),
 		TotalPages:      totalPages,
 		TotalElements:   totalCount,
+		SortBy:          queryParams.Sorts,
 	}
 
 	httpresp.HttpRespSuccess(c, response, paginationResp)

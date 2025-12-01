@@ -10,6 +10,7 @@ import { TableBody } from './TableBody';
 import { TableRow } from './TableRow';
 import { TableCell } from './TableCell';
 import { PaginationArrow } from './PaginationArrow';
+import classNames from 'classnames';
 
 export const Table: React.FC<TableProps> = ({
     data = [],
@@ -113,7 +114,7 @@ export const Table: React.FC<TableProps> = ({
                             {columns.map((column) => (
                                 <TableHead key={column.key} className={column.sortable ? styles.sortable : ''}>
                                     <div
-                                        className={styles.headerContent}
+                                        className={classNames(styles.headerContent, sortConfig?.key === column.key && styles.headerContentActive)}
                                         onClick={() => column.sortable && handleSort(column.key)}
                                         style={{
                                             cursor: column.sortable ? 'pointer' : 'default',

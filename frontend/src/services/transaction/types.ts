@@ -22,6 +22,7 @@ export interface GetBalanceResponse {
 export interface GetUnsuccessfulTransactionsRequest {
     page?: number;
     page_size?: number;
+    sorts?: string
 }
 
 export interface GetUnsuccessfulTransactionsResponse {

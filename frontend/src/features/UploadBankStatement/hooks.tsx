@@ -13,6 +13,7 @@ import {
 } from '@/services/transaction/types';
 import { getErrorMessageFromAxiosError, PaginationMetadata } from '@/services';
 import axios from 'axios';
+import { SortConfig } from '@/components/Table/types';
 
 export const DEFAULT_PAGE_SIZE = 10;
 
@@ -38,7 +39,7 @@ export function useUploadBankStatement() {
                 description: `Successfully uploaded ${result.transactions_uploaded} transactions`,
             });
 
-            await Promise.all([fetchBalance(), fetchUnsuccessfulTransactions(1, DEFAULT_PAGE_SIZE)]);
+            await Promise.all([fetchBalance(), fetchUnsuccessfulTransactions(1, DEFAULT_PAGE_SIZE, "-timestamp")]);
 
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -74,12 +75,13 @@ export function useUploadBankStatement() {
         }
     };
 
-    const fetchUnsuccessfulTransactions = async (page?: number, pageSize?: number) => {
+    const fetchUnsuccessfulTransactions = async (page?: number, pageSize?: number, sort?: string) => {
         setIsLoadingTransactions(true);
         try {
             const result = await getUnsuccessfulTransactions({
                 page,
                 page_size: pageSize,
+                sorts: sort,
             });
             setUnsuccessfulTransactions(result.data.transactions);
             setPagination(result.pagination || null);
@@ -95,6 +97,14 @@ export function useUploadBankStatement() {
         await fetchUnsuccessfulTransactions(page, DEFAULT_PAGE_SIZE);
     };
 
+    const handleSort = async (sortConfig: SortConfig) => {
+        const page = 1;
+        const pageSize = DEFAULT_PAGE_SIZE;
+        const sort = `${sortConfig.direction === 'asc' ? '+' : '-'}${sortConfig.key}`
+
+        await fetchUnsuccessfulTransactions(page, pageSize, sort);
+    };
+
     return {
         uploadBankStatementCSV,
         fetchBalance,
@@ -106,5 +116,6 @@ export function useUploadBankStatement() {
         unsuccessfulTransactions,
         pagination,
         handlePageChange,
+        handleSort,
     };
 }

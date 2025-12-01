@@ -45,6 +45,10 @@
     transition: color 0.2s ease;
 }
 
+.sortable .headerContentActive {
+    color: #3b82f6;
+}
+
 .sortable .headerContent:hover {
     color: #3b82f6;
 }

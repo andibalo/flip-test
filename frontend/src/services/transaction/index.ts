@@ -50,6 +50,10 @@ export async function getUnsuccessfulTransactions(
         params.append('page_size', req.page_size.toString());
     }
 
+    if (req?.sorts) {
+        params.append('sorts', req.sorts);
+    }
+
     const url = params.toString() ? `/issues?${params.toString()}` : '/issues';
 
     const response = await apiRequest<
