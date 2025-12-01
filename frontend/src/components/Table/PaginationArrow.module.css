@@ -13,7 +13,7 @@
 
 .countText {
     font-size: 14px;
-    color: #64748b;
+    color: var(--color-text-muted);
     font-weight: 500;
 }
 
@@ -38,16 +38,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
     border-radius: 8px;
-    background: white;
+    background: var(--color-bg-primary);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .arrowButton:hover:not(:disabled) {
-    background: #f8fafc;
-    border-color: #cbd5e1;
+    background: var(--color-bg-secondary);
+    border-color: var(--color-border-medium);
 }
 
 .arrowButton:disabled {

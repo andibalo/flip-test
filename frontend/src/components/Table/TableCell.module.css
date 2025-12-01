@@ -1,6 +1,6 @@
 .tableCell {
     padding: 16px 20px;
-    color: #334155;
+    color: var(--color-text-secondary);
     font-size: 14px;
     line-height: 1.5;
     vertical-align: middle;

@@ -1,6 +1,6 @@
 .tableRow {
     transition: all 0.2s ease;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 .tableRow:last-child {
@@ -8,7 +8,7 @@
 }
 
 .tableRow:hover {
-    background: linear-gradient(135deg, #fafbff 0%, #f8fafc 100%);
+    background: var(--gradient-bg-hover);
 }
 
 .tableRow.clickable {
@@ -16,15 +16,15 @@
 }
 
 .tableRow.clickable:hover {
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    background: var(--gradient-bg-row-hover);
     transform: translateX(4px);
-    box-shadow: -4px 0 0 0 #3b82f6 inset;
+    box-shadow: -4px 0 0 0 var(--color-primary) inset;
 }
 
 .tableRow:nth-child(even) {
-    background: #fafbfd;
+    background: var(--color-bg-alt);
 }
 
 .tableRow:nth-child(even):hover {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    background: var(--gradient-bg-hover-alt);
 }
