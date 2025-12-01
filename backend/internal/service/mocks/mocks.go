@@ -8,7 +8,6 @@ import (
 	"context"
 
 	"github.com/andibalo/flip-test/internal/entity"
-	"github.com/andibalo/flip-test/internal/model"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -100,24 +99,24 @@ func (_c *MockTransactionService_GetTotalBalance_Call) RunAndReturn(run func(ctx
 }
 
 // GetUnsuccessfulTransactions provides a mock function for the type MockTransactionService
-func (_mock *MockTransactionService) GetUnsuccessfulTransactions(ctx context.Context, req entity.GetIssuesFilter) ([]*model.Transaction, int64, error) {
+func (_mock *MockTransactionService) GetUnsuccessfulTransactions(ctx context.Context, req entity.GetIssuesFilter) (*entity.IssuesResponse, int64, error) {
 	ret := _mock.Called(ctx, req)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetUnsuccessfulTransactions")
 	}
 
-	var r0 []*model.Transaction
+	var r0 *entity.IssuesResponse
 	var r1 int64
 	var r2 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, entity.GetIssuesFilter) ([]*model.Transaction, int64, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, entity.GetIssuesFilter) (*entity.IssuesResponse, int64, error)); ok {
 		return returnFunc(ctx, req)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, entity.GetIssuesFilter) []*model.Transaction); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, entity.GetIssuesFilter) *entity.IssuesResponse); ok {
 		r0 = returnFunc(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]*model.Transaction)
+			r0 = ret.Get(0).(*entity.IssuesResponse)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, entity.GetIssuesFilter) int64); ok {
@@ -163,12 +162,12 @@ func (_c *MockTransactionService_GetUnsuccessfulTransactions_Call) Run(run func(
 	return _c
 }
 
-func (_c *MockTransactionService_GetUnsuccessfulTransactions_Call) Return(transactions []*model.Transaction, n int64, err error) *MockTransactionService_GetUnsuccessfulTransactions_Call {
-	_c.Call.Return(transactions, n, err)
+func (_c *MockTransactionService_GetUnsuccessfulTransactions_Call) Return(issuesResponse *entity.IssuesResponse, n int64, err error) *MockTransactionService_GetUnsuccessfulTransactions_Call {
+	_c.Call.Return(issuesResponse, n, err)
 	return _c
 }
 
-func (_c *MockTransactionService_GetUnsuccessfulTransactions_Call) RunAndReturn(run func(ctx context.Context, req entity.GetIssuesFilter) ([]*model.Transaction, int64, error)) *MockTransactionService_GetUnsuccessfulTransactions_Call {
+func (_c *MockTransactionService_GetUnsuccessfulTransactions_Call) RunAndReturn(run func(ctx context.Context, req entity.GetIssuesFilter) (*entity.IssuesResponse, int64, error)) *MockTransactionService_GetUnsuccessfulTransactions_Call {
 	_c.Call.Return(run)
 	return _c
 }

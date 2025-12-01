@@ -18,6 +18,7 @@ export const UploadBankStatement = () => {
         uploadBankStatementCSV,
         balance,
         unsuccessfulTransactions,
+        unsuccessfulTransactionsSummary,
         pagination,
         isLoadingBalance,
         isLoadingTransactions,
@@ -133,10 +134,18 @@ export const UploadBankStatement = () => {
                     <div className={styles.tableHeader}>
                         <h2>Unsuccessful Transactions</h2>
                         {pagination && (
-                            <span className={styles.tableCount}>
-                                {pagination.total_elements} transaction
-                                {pagination.total_elements !== 1 ? 's' : ''}
-                            </span>
+                            <div>
+                                <span className={styles.tableCount}>
+                                    {unsuccessfulTransactionsSummary?.total_count} transaction
+                                    {unsuccessfulTransactionsSummary?.total_count !== 1 ? 's' : ''}
+                                </span>
+                                <span className={classNames(styles.tableCount, styles.tableCountPending)}>
+                                    {unsuccessfulTransactionsSummary?.pending_count} pending
+                                </span>
+                                <span className={classNames(styles.tableCount, styles.tableCountFailed)}>
+                                    {unsuccessfulTransactionsSummary?.failed_count} failed
+                                </span>
+                            </div>
                         )}
                     </div>
                     <Table

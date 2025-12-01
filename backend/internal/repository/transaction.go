@@ -105,3 +105,29 @@ func (r *transactionRepository) GetUnsuccessfulTransactions(filter entity.GetIss
 
 	return paginatedTransactions, totalCount, nil
 }
+
+func (r *transactionRepository) GetUnsuccessfulTransactionsSummary(filter entity.GetIssuesFilter) (int64, int64, int64, error) {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	if len(r.transactions) == 0 {
+		return 0, 0, 0, nil
+	}
+
+	pendingCount := 0
+	failedCount := 0
+	totalCount := 0
+
+	for _, tx := range r.transactions {
+		if tx.Status == "FAILED" {
+			failedCount++
+			totalCount++
+		}
+		if tx.Status == "PENDING" {
+			pendingCount++
+			totalCount++
+		}
+	}
+
+	return int64(totalCount), int64(pendingCount), int64(failedCount), nil
+}

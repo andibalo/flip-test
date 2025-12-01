@@ -165,7 +165,7 @@ func (tc *TransactionController) GetIssues(c *gin.Context) {
 	page := queryParams.GetPageWithDefault()
 	pageSize := queryParams.GetPageSizeWithDefault()
 
-	transactions, totalCount, err := tc.transactionService.GetUnsuccessfulTransactions(c.Request.Context(), entity.GetIssuesFilter{
+	response, totalCount, err := tc.transactionService.GetUnsuccessfulTransactions(c.Request.Context(), entity.GetIssuesFilter{
 		Sorts:             sorts,
 		PaginationRequest: queryParams.PaginationRequest,
 	})
@@ -174,14 +174,10 @@ func (tc *TransactionController) GetIssues(c *gin.Context) {
 		return
 	}
 
-	response := &entity.IssuesResponse{
-		Transactions: transactions,
-	}
-
 	totalPages := (totalCount + int64(pageSize) - 1) / int64(pageSize)
 	paginationResp := &pagination.Pagination{
 		CurrentPage:     int64(page),
-		CurrentElements: int64(len(transactions)),
+		CurrentElements: int64(len(response.Transactions)),
 		TotalPages:      totalPages,
 		TotalElements:   totalCount,
 		SortBy:          queryParams.Sorts,

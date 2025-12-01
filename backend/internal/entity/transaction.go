@@ -24,6 +24,13 @@ type GetIssuesFilter struct {
 	pagination.PaginationRequest
 }
 
+type IssuesSummary struct {
+	TotalCount   int64 `json:"total_count"`
+	PendingCount int64 `json:"pending_count"`
+	FailedCount  int64 `json:"failed_count"`
+}
+
 type IssuesResponse struct {
 	Transactions []*model.Transaction `json:"transactions"`
+	Summary      IssuesSummary        `json:"summary"`
 }

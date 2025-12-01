@@ -184,6 +184,16 @@
     font-size: 14px;
     color: #64748b;
     font-weight: 500;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.tableCountPending {
+    color: #f59e0b;
+}
+
+.tableCountFailed {
+    color: #ef4444;
 }
 
 .loader {

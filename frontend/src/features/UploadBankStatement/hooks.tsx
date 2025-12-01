@@ -10,6 +10,7 @@ import {
 import {
     GetBalanceResponse,
     Transaction,
+    GetUnsuccessfulTransactionSummary,
 } from '@/services/transaction/types';
 import { getErrorMessageFromAxiosError, PaginationMetadata } from '@/services';
 import axios from 'axios';
@@ -26,6 +27,9 @@ export function useUploadBankStatement() {
     const [unsuccessfulTransactions, setUnsuccessfulTransactions] = useState<
         Transaction[]
     >([]);
+    const [unsuccessfulTransactionsSummary, setUnsuccessfulTransactionsSummary] = useState<
+        GetUnsuccessfulTransactionSummary | null
+    >(null);
     const [pagination, setPagination] = useState<PaginationMetadata | null>(null);
 
     const uploadBankStatementCSV = async (file: File) => {
@@ -84,6 +88,7 @@ export function useUploadBankStatement() {
                 sorts: sort,
             });
             setUnsuccessfulTransactions(result.data.transactions);
+            setUnsuccessfulTransactionsSummary(result.data.summary);
             setPagination(result.pagination || null);
             return result;
         } catch (error) {
@@ -114,6 +119,7 @@ export function useUploadBankStatement() {
         isLoadingTransactions,
         balance,
         unsuccessfulTransactions,
+        unsuccessfulTransactionsSummary,
         pagination,
         handlePageChange,
         handleSort,

@@ -187,7 +187,11 @@ func TestTransactionController_GetIssues(t *testing.T) {
 			name:        "Success",
 			queryParams: "?page=1&page_size=10",
 			setupMock: func(mockService *mocks.MockTransactionService) {
-				mockService.On("GetUnsuccessfulTransactions", mock.Anything, mock.Anything).Return([]*model.Transaction{}, int64(0), nil)
+				resp := &entity.IssuesResponse{
+					Transactions: []*model.Transaction{},
+					Summary:      entity.IssuesSummary{},
+				}
+				mockService.On("GetUnsuccessfulTransactions", mock.Anything, mock.Anything).Return(resp, int64(0), nil)
 			},
 			expectedStatus: http.StatusOK,
 		},
@@ -195,9 +199,15 @@ func TestTransactionController_GetIssues(t *testing.T) {
 			name:        "Success with Sort",
 			queryParams: "?page=1&page_size=10&sorts=+timestamp",
 			setupMock: func(mockService *mocks.MockTransactionService) {
+
+				resp := &entity.IssuesResponse{
+					Transactions: []*model.Transaction{},
+					Summary:      entity.IssuesSummary{},
+				}
+
 				mockService.On("GetUnsuccessfulTransactions", mock.Anything, mock.MatchedBy(func(filter entity.GetIssuesFilter) bool {
 					return len(filter.Sorts.Data()) == 1 && filter.Sorts.Data()[0].Name == "timestamp"
-				})).Return([]*model.Transaction{}, int64(0), nil)
+				})).Return(resp, int64(0), nil)
 			},
 			expectedStatus: http.StatusOK,
 		},

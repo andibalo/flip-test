@@ -214,7 +214,7 @@ func (s *transactionService) GetTotalBalance(ctx context.Context) (int64, error)
 	return balance, nil
 }
 
-func (s *transactionService) GetUnsuccessfulTransactions(ctx context.Context, req entity.GetIssuesFilter) ([]*model.Transaction, int64, error) {
+func (s *transactionService) GetUnsuccessfulTransactions(ctx context.Context, req entity.GetIssuesFilter) (*entity.IssuesResponse, int64, error) {
 	transactions, totalCount, err := s.transactionRepo.GetUnsuccessfulTransactions(req)
 	if err != nil {
 		s.logger.ErrorWithContext(ctx, "[GetUnsuccessfulTransactions] Failed to retrieve unsuccessful transactions", zap.Error(err))
@@ -225,5 +225,24 @@ func (s *transactionService) GetUnsuccessfulTransactions(ctx context.Context, re
 			Errorf("failed to retrieve transactions")
 	}
 
-	return transactions, totalCount, nil
+	summaryTotalCount, pendingCount, failedCount, err := s.transactionRepo.GetUnsuccessfulTransactionsSummary(req)
+	if err != nil {
+		s.logger.ErrorWithContext(ctx, "[GetUnsuccessfulTransactions] Failed to retrieve unsuccessful transactions summary", zap.Error(err))
+		return nil, 0, oops.
+			Code(httpresp.ServerError.AsString()).
+			With(httpresp.StatusCodeCtxKey, http.StatusInternalServerError).
+			With("error", err.Error()).
+			Errorf("failed to retrieve transactions summary")
+	}
+
+	response := &entity.IssuesResponse{
+		Transactions: transactions,
+		Summary: entity.IssuesSummary{
+			PendingCount: pendingCount,
+			FailedCount:  failedCount,
+			TotalCount:   summaryTotalCount,
+		},
+	}
+
+	return response, totalCount, nil
 }
