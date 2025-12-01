@@ -161,7 +161,12 @@ The backend exposes the following RESTful API endpoints:
                         "status": "FAILED",
                         "description": "Payment failed"
                     }
-                ]
+                ],
+                "summary": {
+                    "total_count": 23,
+                    "pending_count": 11,
+                    "failed_count": 12
+                }
             },
             "pagination": {
                 "current_page": 1,
