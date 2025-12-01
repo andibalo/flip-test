@@ -42,6 +42,45 @@ To run the application:
     -   **CSS Modules**: Scopes CSS to the component, preventing style conflicts.
     -   **classnames**: A simple JavaScript utility for conditionally joining classNames together. 
 
+### Project Structure
+
+**Backend**
+The backend follows a standard Go project layout with Clean Architecture principles:
+```
+backend/
+├── cmd/            # Main applications (entry points)
+├── internal/       # Private application and library code
+│   ├── config/     # Configuration management
+│   ├── controller/ # HTTP handlers and request processing
+│   ├── entity/     # Domain entities and business objects
+│   ├── middleware/ # HTTP middleware (CORS, logging, etc.)
+│   ├── model/      # Data models for database interaction
+│   ├── repository/ # Data access layer
+│   └── service/    # Business logic layer
+├── pkg/            # Public library code
+├── Dockerfile      # Docker configuration
+├── go.mod          # Go module definitions
+└── go.sum          # Go module checksums
+```
+
+**Frontend**
+The frontend is structured as a Next.js application:
+```
+frontend/
+├── public/         # Static assets
+├── src/            # Source code
+│   ├── app/        # Next.js App Router pages and layouts
+│   ├── components/ # Reusable UI components
+│   ├── features/   # Feature-based modules (e.g., UploadBankStatement)
+│   ├── hooks/      # Custom React hooks
+│   ├── lib/        # Utility libraries and helpers
+│   ├── services/   # API services and types
+│   └── styles/     # Global styles and themes
+├── Dockerfile      # Docker configuration
+├── package.json    # Project dependencies and scripts
+└── tsconfig.json   # TypeScript configuration
+``` 
+
 ### CI/CD (with Github Actions)
 **Deployment**
 
