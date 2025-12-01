@@ -45,11 +45,23 @@ To run the application:
 ### CI/CD (with Github Actions)
 **Deployment**
 
-Deployment will run upon tagging a branch with the following format:
-- FE: `{{ENV}}-fe-v{{VERSION}}` ex. **stg-fe-v0.01**
-- BE: `{{ENV}}-be-v{{VERSION}}` ex. **stg-be-v0.01**
+1. Firstly, you will need to create a tag with the following format:
+- FE: `{{ENV}}-fe-v{{VERSION}}` ex. **stg-fe-v0.01**, will deploy FE to staging environment with version 0.01
+- BE: `{{ENV}}-be-v{{VERSION}}` ex. **stg-be-v0.01**, will deploy BE to staging environment with version 0.01
+
+Valid Tags:
+```
+stg-fe-v*
+stg-be-v*
+prod-fe-V*
+prod-be-v*
+```
+2. And then create a new github release by tagging a branch with the tag created from step 1 
+
 
 **Pull Request**
+
+When making a pull request to master branch, the pipeline will check for changes in backend and frontend folder. If there are changes in the folder it will run the respective jobs for that folder. BE job for backend folder and FE job for frontend folder.
 - BE: Will run unit test and build verfication. If coverage is below 70% will return an error
 - FE: Will run linter and build verfication
 
