@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import styles from './TableCell.module.css';
 
 interface TableCellProps {
@@ -9,7 +10,7 @@ interface TableCellProps {
 
 export const TableCell: React.FC<TableCellProps> = ({ children, align = 'left', className }) => {
     return (
-        <td className={`${styles.tableCell} ${styles[`align-${align}`]} ${className || ''}`}>
+        <td className={classNames(styles.tableCell, styles[`align-${align}`], className)}>
             {children}
         </td>
     );

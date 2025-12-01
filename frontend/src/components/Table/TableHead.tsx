@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import styles from './TableHead.module.css';
 
 interface TableHeadProps {
@@ -7,5 +8,5 @@ interface TableHeadProps {
 }
 
 export const TableHead: React.FC<TableHeadProps> = ({ children, className }) => {
-    return <th className={`${styles.tableHead} ${className || ''}`}>{children}</th>;
+    return <th className={classNames(styles.tableHead, className)}>{children}</th>;
 };

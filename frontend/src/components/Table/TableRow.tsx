@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import styles from './TableRow.module.css';
 
 interface TableRowProps {
@@ -21,7 +22,11 @@ export const TableRow: React.FC<TableRowProps> = ({ children, decoration, onClic
 
     return (
         <tr
-            className={`${styles.tableRow} ${decoration?.className || ''} ${onClick ? styles.clickable : ''}`}
+            className={classNames(
+                styles.tableRow,
+                decoration?.className,
+                onClick && styles.clickable
+            )}
             style={style}
             onClick={onClick}
         >

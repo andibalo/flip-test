@@ -5,10 +5,13 @@ import { Container } from '@/components/layout/Container';
 import { Table } from '@/components/Table';
 import { Column } from '@/components/Table/types';
 import { Transaction } from '@/services/transaction/types';
+import { Badge } from '@/components/ui/Badge';
 import { DEFAULT_PAGE_SIZE, useUploadBankStatement } from './hooks';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './UploadBankStatement.module.css';
 import { COL_WIDTH_LARGE, COL_WIDTH_SMALL, COL_WIDTH_XSMALL } from '@/components/Table/constant';
+import { formatCurrency, formatDate } from '@/lib';
+import classNames from 'classnames';
 
 export const UploadBankStatement = () => {
     const {
@@ -20,24 +23,6 @@ export const UploadBankStatement = () => {
         isLoadingTransactions,
         handlePageChange,
     } = useUploadBankStatement();
-
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-        }).format(amount);
-    };
-
-    const formatDate = (timestamp: number) => {
-        return new Date(timestamp * 1000).toLocaleString('id-ID', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        });
-    };
 
     const columns: Column[] = [
         {
@@ -60,12 +45,9 @@ export const UploadBankStatement = () => {
             sortable: true,
             align: 'left',
             render: (value: string) => (
-                <span
-                    className={`${styles.badge} ${value === 'CREDIT' ? styles.credit : styles.debit
-                        }`}
-                >
+                <Badge variant={value === 'CREDIT' ? 'info' : 'warning'}>
                     {value}
-                </span>
+                </Badge>
             ),
             width: COL_WIDTH_XSMALL,
         },
@@ -83,12 +65,9 @@ export const UploadBankStatement = () => {
             sortable: true,
             align: 'left',
             render: (value: string) => (
-                <span
-                    className={`${styles.badge} ${value === 'FAILED' ? styles.failed : styles.pending
-                        }`}
-                >
+                <Badge variant={value === 'FAILED' ? 'danger' : 'warning'}>
                     {value}
-                </span>
+                </Badge>
             ),
             width: COL_WIDTH_XSMALL,
         },
@@ -116,6 +95,7 @@ export const UploadBankStatement = () => {
         return undefined;
     };
 
+
     return (
         <div className={styles.wrapper}>
             <Container maxWidth="xl">
@@ -131,7 +111,10 @@ export const UploadBankStatement = () => {
                     />
                 </div>
                 <div className={styles.balanceSection}>
-                    <div className={styles.balanceCard}>
+                    <div className={classNames(
+                        styles.balanceCard,
+                        balance && balance.total_balance < 0 && styles.balanceCardNegative
+                    )}>
                         <h2>Total Balance</h2>
                         {isLoadingBalance ? (
                             <div className={styles.loader}>Loading...</div>

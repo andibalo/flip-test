@@ -21,7 +21,6 @@
     box-shadow: -4px 0 0 0 #3b82f6 inset;
 }
 
-/* Zebra Striping */
 .tableRow:nth-child(even) {
     background: #fafbfd;
 }

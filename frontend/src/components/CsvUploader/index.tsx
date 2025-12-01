@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useCallback, DragEvent, ChangeEvent } from 'react';
+import classNames from 'classnames';
 import { FiUploadCloud, FiFile, FiX } from 'react-icons/fi';
 import useToast from '@/hooks/useToast';
+import { Button } from '@/components/ui/Button';
 import styles from './CsvUploader.module.css';
 
 interface CsvUploaderProps {
@@ -19,7 +21,7 @@ export const CsvUploader: React.FC<CsvUploaderProps> = ({
     const [isUploading, setIsUploading] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    const validateFile = (file: File): boolean => {
+    const validateFile = useCallback((file: File): boolean => {
         const validTypes = ['text/csv', 'application/vnd.ms-excel'];
         const isValidType = validTypes.includes(file.type) || file.name.endsWith('.csv');
 
@@ -34,7 +36,7 @@ export const CsvUploader: React.FC<CsvUploaderProps> = ({
         }
 
         return true;
-    };
+    }, [showToast, onUploadError]);
 
     const handleDragEnter = useCallback((e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -113,8 +115,11 @@ export const CsvUploader: React.FC<CsvUploaderProps> = ({
     return (
         <div className={styles.container}>
             <div
-                className={`${styles.dropzone} ${isDragging ? styles.dragging : ''} ${selectedFile ? styles.hasFile : ''
-                    }`}
+                className={classNames(
+                    styles.dropzone,
+                    isDragging && styles.dragging,
+                    selectedFile && styles.hasFile
+                )}
                 onClick={handleDropzoneClick}
                 onDragEnter={handleDragEnter}
                 onDragOver={handleDragOver}
@@ -165,23 +170,17 @@ export const CsvUploader: React.FC<CsvUploaderProps> = ({
             </div>
 
             {selectedFile && (
-                <button
+                <Button
                     onClick={handleUpload}
-                    disabled={isUploading}
-                    className={`${styles.uploadButton} ${isUploading ? styles.uploading : ''}`}
+                    variant="success"
+                    size="lg"
+                    fullWidth
+                    isLoading={isUploading}
+                    className={styles.uploadButton}
                 >
-                    {isUploading ? (
-                        <>
-                            <span className={styles.spinner}></span>
-                            Uploading...
-                        </>
-                    ) : (
-                        <>
-                            <FiUploadCloud size={18} />
-                            Upload Transactions
-                        </>
-                    )}
-                </button>
+                    <FiUploadCloud size={18} />
+                    {isUploading ? 'Uploading...' : 'Upload Transactions'}
+                </Button>
             )}
         </div>
     );

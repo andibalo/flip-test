@@ -1,4 +1,6 @@
 import React from 'react';
+import classNames from 'classnames';
+import { Spinner } from '../Spinner';
 import styles from './Button.module.css';
 
 interface ButtonProps {
@@ -11,6 +13,7 @@ interface ButtonProps {
     fullWidth?: boolean;
     className?: string;
     style?: React.CSSProperties;
+    isLoading?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -21,19 +24,28 @@ export const Button: React.FC<ButtonProps> = ({
     disabled = false,
     type = 'button',
     fullWidth = false,
-    className = '',
+    className,
     style,
+    isLoading = false,
 }) => {
+    const isDisabled = disabled || isLoading;
+
     return (
         <button
             type={type}
             onClick={onClick}
-            disabled={disabled}
-            className={`${styles.button} ${styles[variant]} ${styles[size]} ${fullWidth ? styles.fullWidth : ''
-                } ${className}`}
+            disabled={isDisabled}
+            className={classNames(
+                styles.button,
+                styles[variant],
+                styles[size],
+                fullWidth && styles.fullWidth,
+                className
+            )}
             style={style}
         >
-            {children}
+            {isLoading && <Spinner size={size === 'sm' ? 'sm' : size === 'lg' ? 'md' : 'sm'} />}
+            {!isLoading && children}
         </button>
     );
 };

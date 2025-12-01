@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import styles from './Container.module.css';
 
 interface ContainerProps {
@@ -11,12 +12,12 @@ interface ContainerProps {
 export const Container: React.FC<ContainerProps> = ({
     children,
     maxWidth = 'lg',
-    className = '',
+    className,
     style
 }) => {
     return (
         <div
-            className={`${styles.container} ${styles[maxWidth]} ${className}`}
+            className={classNames(styles.container, styles[maxWidth], className)}
             style={style}
         >
             {children}
