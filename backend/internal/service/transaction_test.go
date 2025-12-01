@@ -112,7 +112,7 @@ func TestUploadCSVFile(t *testing.T) {
 			csvContent: []byte(`1624608050, MERCHANT A, CREDIT, 500000, SUCCESS, salary
 1624615065, MERCHANT B, DEBIT, 150000, PENDING, payment`),
 			setupMock: func(mockRepo *mocks.MockTransactionRepository) {
-				mockRepo.On("GetAll").Return([]*model.Transaction{}, nil).Times(2)
+				mockRepo.On("GetAll").Return([]*model.Transaction{}, nil).Once()
 				mockRepo.On("Clear").Return().Maybe()
 				mockRepo.On("SaveBulk", mock.AnythingOfType("[]*model.Transaction")).Return(nil).Once()
 			},
@@ -125,7 +125,7 @@ func TestUploadCSVFile(t *testing.T) {
 1624615065, MERCHANT B, DEBIT, 150000, FAILED, payment
 1624622080, MERCHANT C, CREDIT, 200000, PENDING, bonus`),
 			setupMock: func(mockRepo *mocks.MockTransactionRepository) {
-				mockRepo.On("GetAll").Return([]*model.Transaction{}, nil).Times(3)
+				mockRepo.On("GetAll").Return([]*model.Transaction{}, nil).Once()
 				mockRepo.On("Clear").Return().Maybe()
 				mockRepo.On("SaveBulk", mock.AnythingOfType("[]*model.Transaction")).Return(nil).Once()
 			},
@@ -137,7 +137,7 @@ func TestUploadCSVFile(t *testing.T) {
 			csvContent: []byte(`1624608050, MERCHANT A, CREDIT, 500000, SUCCESS, salary
 1624615065, MERCHANT B, DEBIT, 150000, FAILED, payment`),
 			setupMock: func(mockRepo *mocks.MockTransactionRepository) {
-				mockRepo.On("GetAll").Return([]*model.Transaction{}, nil).Times(2)
+				mockRepo.On("GetAll").Return([]*model.Transaction{}, nil).Once()
 				mockRepo.On("Clear").Return().Maybe()
 				mockRepo.On("SaveBulk", mock.AnythingOfType("[]*model.Transaction")).Return(nil).Once()
 			},
