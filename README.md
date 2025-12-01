@@ -57,6 +57,7 @@ prod-fe-V*
 prod-be-v*
 ```
 2. And then create a new github release by tagging a branch with the tag created from step 1 
+3. It will then run the deployment pipeline. **Note**: The current deployment pipeline will not deploy to ecs/cloud, instead will only log the deployment process.
 
 
 **Pull Request**
