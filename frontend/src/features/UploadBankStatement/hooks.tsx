@@ -11,7 +11,8 @@ import {
     GetBalanceResponse,
     Transaction,
 } from '@/services/transaction/types';
-import { PaginationMetadata } from '@/services';
+import { getErrorMessageFromAxiosError, PaginationMetadata } from '@/services';
+import axios from 'axios';
 
 export const DEFAULT_PAGE_SIZE = 10;
 
@@ -39,11 +40,20 @@ export function useUploadBankStatement() {
 
             await Promise.all([fetchBalance(), fetchUnsuccessfulTransactions(1, DEFAULT_PAGE_SIZE)]);
 
-        } catch (error: any) {
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                showToast({
+                    type: 'error',
+                    title: 'Upload Failed',
+                    description: getErrorMessageFromAxiosError(error),
+                });
+                throw error;
+            }
+
             showToast({
                 type: 'error',
                 title: 'Upload Failed',
-                description: error.message || 'Failed to upload CSV file',
+                description: 'Failed to upload CSV file',
             });
             throw error;
         } finally {
@@ -57,12 +67,7 @@ export function useUploadBankStatement() {
             const result = await getBalance();
             setBalance(result);
             return result;
-        } catch (error: any) {
-            showToast({
-                type: 'error',
-                title: 'Failed to Fetch Balance',
-                description: error.message || 'Failed to retrieve balance',
-            });
+        } catch (error) {
             throw error;
         } finally {
             setIsLoadingBalance(false);
@@ -79,12 +84,7 @@ export function useUploadBankStatement() {
             setUnsuccessfulTransactions(result.data.transactions);
             setPagination(result.pagination || null);
             return result;
-        } catch (error: any) {
-            showToast({
-                type: 'error',
-                title: 'Failed to Fetch Transactions',
-                description: error.message || 'Failed to retrieve transactions',
-            });
+        } catch (error) {
             throw error;
         } finally {
             setIsLoadingTransactions(false);

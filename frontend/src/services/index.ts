@@ -97,7 +97,7 @@ const getErrorMessageFromAxiosError = (
     error: AxiosError<ApiErrorResponse>,
 ): string => {
     if (error.response && error.response.data) {
-        const apiErrorMsg = error.response.data.metadata.error;
+        const apiErrorMsg = error.response.data.metadata.message;
         return apiErrorMsg || "An error occurred";
     }
 
