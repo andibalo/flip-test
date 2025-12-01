@@ -6,5 +6,5 @@ interface TableBodyProps {
 }
 
 export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
-    return <tbody className={styles.tableBody}>{children}</tbody>;
+    return <tbody className={styles.tableBody}>{children} dawda</tbody>;
 };
