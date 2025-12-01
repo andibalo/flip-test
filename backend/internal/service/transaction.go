@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/andibalo/flip-test/internal/constants"
+	"github.com/andibalo/flip-test/internal/entity"
 	"github.com/andibalo/flip-test/internal/model"
 	"github.com/andibalo/flip-test/internal/repository"
 	"github.com/andibalo/flip-test/pkg/httpresp"
@@ -127,7 +128,7 @@ func (s *transactionService) parseCsvFile(ctx context.Context, records [][]strin
 		}
 
 		txType := strings.TrimSpace(record[2])
-		if txType != constants.TransactionTypeDebit && txType != constants.TransactionTypeCredit {
+		if !constants.IsValidTransactionType(txType) {
 			s.logger.ErrorWithContext(ctx, "[UploadCSVFile] Invalid transaction type",
 				zap.Int("line", i+1),
 				zap.String("type", txType))
@@ -140,9 +141,7 @@ func (s *transactionService) parseCsvFile(ctx context.Context, records [][]strin
 		}
 
 		status := strings.TrimSpace(record[4])
-		if status != constants.TransactionStatusSuccess &&
-			status != constants.TransactionStatusFailed &&
-			status != constants.TransactionStatusPending {
+		if !constants.IsValidTransactionStatus(status) {
 			s.logger.ErrorWithContext(ctx, "[UploadCSVFile] Invalid status",
 				zap.Int("line", i+1),
 				zap.String("status", status))
@@ -215,8 +214,8 @@ func (s *transactionService) GetTotalBalance(ctx context.Context) (int64, error)
 	return balance, nil
 }
 
-func (s *transactionService) GetUnsuccessfulTransactions(ctx context.Context, page, pageSize int) ([]*model.Transaction, int64, error) {
-	transactions, totalCount, err := s.transactionRepo.GetUnsuccessfulTransactions(page, pageSize)
+func (s *transactionService) GetUnsuccessfulTransactions(ctx context.Context, req entity.GetIssuesFilter) ([]*model.Transaction, int64, error) {
+	transactions, totalCount, err := s.transactionRepo.GetUnsuccessfulTransactions(req)
 	if err != nil {
 		s.logger.ErrorWithContext(ctx, "[GetUnsuccessfulTransactions] Failed to retrieve unsuccessful transactions", zap.Error(err))
 		return nil, 0, oops.

@@ -1,8 +1,10 @@
 package repository
 
 import (
+	"sort"
 	"sync"
 
+	"github.com/andibalo/flip-test/internal/entity"
 	"github.com/andibalo/flip-test/internal/model"
 )
 
@@ -40,7 +42,7 @@ func (r *transactionRepository) Clear() {
 	r.transactions = make([]*model.Transaction, 0)
 }
 
-func (r *transactionRepository) GetUnsuccessfulTransactions(page, pageSize int) ([]*model.Transaction, int64, error) {
+func (r *transactionRepository) GetUnsuccessfulTransactions(filter entity.GetIssuesFilter) ([]*model.Transaction, int64, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -51,10 +53,39 @@ func (r *transactionRepository) GetUnsuccessfulTransactions(page, pageSize int) 
 		}
 	}
 
+	if len(filter.Sorts.Data()) > 0 {
+		sortData := filter.Sorts.Data()[0]
+
+		sort.Slice(unsuccessfulTransactions, func(i, j int) bool {
+			var less bool
+			switch sortData.Name {
+			case "timestamp":
+				less = unsuccessfulTransactions[i].TransactionDate < unsuccessfulTransactions[j].TransactionDate
+			case "name":
+				less = unsuccessfulTransactions[i].Name < unsuccessfulTransactions[j].Name
+			case "type":
+				less = unsuccessfulTransactions[i].Type < unsuccessfulTransactions[j].Type
+			case "amount":
+				less = unsuccessfulTransactions[i].Amount < unsuccessfulTransactions[j].Amount
+			case "status":
+				less = unsuccessfulTransactions[i].Status < unsuccessfulTransactions[j].Status
+			case "description":
+				less = unsuccessfulTransactions[i].Description < unsuccessfulTransactions[j].Description
+			default:
+				less = false
+			}
+
+			if sortData.Direction == "desc" {
+				return !less
+			}
+			return less
+		})
+	}
+
 	totalCount := int64(len(unsuccessfulTransactions))
 
-	offset := (page - 1) * pageSize
-	limit := pageSize
+	offset := (filter.Page - 1) * filter.GetPageSizeWithDefault()
+	limit := filter.GetPageSizeWithDefault()
 
 	if offset >= len(unsuccessfulTransactions) {
 		return []*model.Transaction{}, totalCount, nil

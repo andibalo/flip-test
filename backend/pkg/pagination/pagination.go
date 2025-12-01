@@ -11,8 +11,8 @@ type Pagination struct {
 }
 
 type PaginationRequest struct {
-	Page     int `form:"page"`
-	PageSize int `form:"page_size"`
+	Page     int `json:"page" form:"page"`
+	PageSize int `json:"page_size" form:"page_size"`
 }
 
 func (p *PaginationRequest) GetPageWithDefault() int {

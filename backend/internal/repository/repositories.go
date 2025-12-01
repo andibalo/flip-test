@@ -1,11 +1,13 @@
 package repository
 
-import "github.com/andibalo/flip-test/internal/model"
+import (
+	"github.com/andibalo/flip-test/internal/entity"
+	"github.com/andibalo/flip-test/internal/model"
+)
 
-//go:generate mockery --name=TransactionRepository
 type TransactionRepository interface {
 	SaveBulk(transactions []*model.Transaction) error
 	GetAll() ([]*model.Transaction, error)
-	GetUnsuccessfulTransactions(page, pageSize int) ([]*model.Transaction, int64, error)
+	GetUnsuccessfulTransactions(filter entity.GetIssuesFilter) ([]*model.Transaction, int64, error)
 	Clear()
 }

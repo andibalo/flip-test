@@ -3,12 +3,14 @@ package v1
 import (
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/andibalo/flip-test/internal/entity"
 	"github.com/andibalo/flip-test/internal/service"
 	"github.com/andibalo/flip-test/pkg/common"
 	"github.com/andibalo/flip-test/pkg/httpresp"
 	"github.com/andibalo/flip-test/pkg/pagination"
+	pkgsort "github.com/andibalo/flip-test/pkg/sort"
 	"github.com/gin-gonic/gin"
 	"github.com/samber/oops"
 )
@@ -131,16 +133,42 @@ func (tc *TransactionController) GetBalance(c *gin.Context) {
 // @Failure 500 {object} httpresp.HTTPErrResp
 // @Router /issues [get]
 func (tc *TransactionController) GetIssues(c *gin.Context) {
-	var paginationReq pagination.PaginationRequest
-	if err := c.ShouldBindQuery(&paginationReq); err != nil {
+	var queryParams entity.GetIssuesQueryParams
+	if err := c.ShouldBindQuery(&queryParams); err != nil {
 		httpresp.HttpRespError(c, err)
 		return
 	}
 
-	page := paginationReq.GetPageWithDefault()
-	pageSize := paginationReq.GetPageSizeWithDefault()
+	var sorts pkgsort.Sorts
+	if queryParams.Sorts != "" {
+		sortValues := strings.Split(queryParams.Sorts, ",")
+		sorts = pkgsort.ParseMultipleSorts(sortValues)
 
-	transactions, totalCount, err := tc.transactionService.GetUnsuccessfulTransactions(c.Request.Context(), page, pageSize)
+		if len(sorts.Data()) > 1 {
+			httpresp.HttpRespError(c, oops.
+				Code(httpresp.BadRequest.AsString()).
+				With(httpresp.StatusCodeCtxKey, http.StatusBadRequest).
+				Errorf("only single column sorting is supported"))
+			return
+		}
+
+		allowedColumns := []string{"timestamp", "name", "type", "amount", "status", "description"}
+		if err := sorts.Validate(allowedColumns); err != nil {
+			httpresp.HttpRespError(c, oops.
+				Code(httpresp.BadRequest.AsString()).
+				With(httpresp.StatusCodeCtxKey, http.StatusBadRequest).
+				Wrapf(err, "invalid sort parameter"))
+			return
+		}
+	}
+
+	page := queryParams.GetPageWithDefault()
+	pageSize := queryParams.GetPageSizeWithDefault()
+
+	transactions, totalCount, err := tc.transactionService.GetUnsuccessfulTransactions(c.Request.Context(), entity.GetIssuesFilter{
+		Sorts:             sorts,
+		PaginationRequest: queryParams.PaginationRequest,
+	})
 	if err != nil {
 		httpresp.HttpRespError(c, err)
 		return

@@ -5,6 +5,7 @@
 package mocks
 
 import (
+	"github.com/andibalo/flip-test/internal/entity"
 	"github.com/andibalo/flip-test/internal/model"
 	mock "github.com/stretchr/testify/mock"
 )
@@ -125,8 +126,8 @@ func (_c *MockTransactionRepository_GetAll_Call) RunAndReturn(run func() ([]*mod
 }
 
 // GetUnsuccessfulTransactions provides a mock function for the type MockTransactionRepository
-func (_mock *MockTransactionRepository) GetUnsuccessfulTransactions(page int, pageSize int) ([]*model.Transaction, int64, error) {
-	ret := _mock.Called(page, pageSize)
+func (_mock *MockTransactionRepository) GetUnsuccessfulTransactions(filter entity.GetIssuesFilter) ([]*model.Transaction, int64, error) {
+	ret := _mock.Called(filter)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetUnsuccessfulTransactions")
@@ -135,23 +136,23 @@ func (_mock *MockTransactionRepository) GetUnsuccessfulTransactions(page int, pa
 	var r0 []*model.Transaction
 	var r1 int64
 	var r2 error
-	if returnFunc, ok := ret.Get(0).(func(int, int) ([]*model.Transaction, int64, error)); ok {
-		return returnFunc(page, pageSize)
+	if returnFunc, ok := ret.Get(0).(func(entity.GetIssuesFilter) ([]*model.Transaction, int64, error)); ok {
+		return returnFunc(filter)
 	}
-	if returnFunc, ok := ret.Get(0).(func(int, int) []*model.Transaction); ok {
-		r0 = returnFunc(page, pageSize)
+	if returnFunc, ok := ret.Get(0).(func(entity.GetIssuesFilter) []*model.Transaction); ok {
+		r0 = returnFunc(filter)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]*model.Transaction)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(int, int) int64); ok {
-		r1 = returnFunc(page, pageSize)
+	if returnFunc, ok := ret.Get(1).(func(entity.GetIssuesFilter) int64); ok {
+		r1 = returnFunc(filter)
 	} else {
 		r1 = ret.Get(1).(int64)
 	}
-	if returnFunc, ok := ret.Get(2).(func(int, int) error); ok {
-		r2 = returnFunc(page, pageSize)
+	if returnFunc, ok := ret.Get(2).(func(entity.GetIssuesFilter) error); ok {
+		r2 = returnFunc(filter)
 	} else {
 		r2 = ret.Error(2)
 	}
@@ -164,25 +165,19 @@ type MockTransactionRepository_GetUnsuccessfulTransactions_Call struct {
 }
 
 // GetUnsuccessfulTransactions is a helper method to define mock.On call
-//   - page int
-//   - pageSize int
-func (_e *MockTransactionRepository_Expecter) GetUnsuccessfulTransactions(page interface{}, pageSize interface{}) *MockTransactionRepository_GetUnsuccessfulTransactions_Call {
-	return &MockTransactionRepository_GetUnsuccessfulTransactions_Call{Call: _e.mock.On("GetUnsuccessfulTransactions", page, pageSize)}
+//   - filter entity.GetIssuesFilter
+func (_e *MockTransactionRepository_Expecter) GetUnsuccessfulTransactions(filter interface{}) *MockTransactionRepository_GetUnsuccessfulTransactions_Call {
+	return &MockTransactionRepository_GetUnsuccessfulTransactions_Call{Call: _e.mock.On("GetUnsuccessfulTransactions", filter)}
 }
 
-func (_c *MockTransactionRepository_GetUnsuccessfulTransactions_Call) Run(run func(page int, pageSize int)) *MockTransactionRepository_GetUnsuccessfulTransactions_Call {
+func (_c *MockTransactionRepository_GetUnsuccessfulTransactions_Call) Run(run func(filter entity.GetIssuesFilter)) *MockTransactionRepository_GetUnsuccessfulTransactions_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 int
+		var arg0 entity.GetIssuesFilter
 		if args[0] != nil {
-			arg0 = args[0].(int)
-		}
-		var arg1 int
-		if args[1] != nil {
-			arg1 = args[1].(int)
+			arg0 = args[0].(entity.GetIssuesFilter)
 		}
 		run(
 			arg0,
-			arg1,
 		)
 	})
 	return _c
@@ -193,7 +188,7 @@ func (_c *MockTransactionRepository_GetUnsuccessfulTransactions_Call) Return(tra
 	return _c
 }
 
-func (_c *MockTransactionRepository_GetUnsuccessfulTransactions_Call) RunAndReturn(run func(page int, pageSize int) ([]*model.Transaction, int64, error)) *MockTransactionRepository_GetUnsuccessfulTransactions_Call {
+func (_c *MockTransactionRepository_GetUnsuccessfulTransactions_Call) RunAndReturn(run func(filter entity.GetIssuesFilter) ([]*model.Transaction, int64, error)) *MockTransactionRepository_GetUnsuccessfulTransactions_Call {
 	_c.Call.Return(run)
 	return _c
 }

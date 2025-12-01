@@ -16,3 +16,6 @@ packages:
   github.com/andibalo/flip-test/internal/repository:
     config:
       all: true
+  github.com/andibalo/flip-test/internal/service:
+    config:
+      all: true

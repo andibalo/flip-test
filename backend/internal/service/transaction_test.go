@@ -137,7 +137,6 @@ func TestUploadCSVFile(t *testing.T) {
 			csvContent: []byte(`1624608050, MERCHANT A, CREDIT, 500000, SUCCESS, salary
 1624615065, MERCHANT B, DEBIT, 150000, FAILED, payment`),
 			setupMock: func(mockRepo *mocks.MockTransactionRepository) {
-				// GetAll is called for each record in the loop
 				mockRepo.On("GetAll").Return([]*model.Transaction{}, nil).Times(2)
 				mockRepo.On("Clear").Return().Maybe()
 				mockRepo.On("SaveBulk", mock.AnythingOfType("[]*model.Transaction")).Return(nil).Once()
