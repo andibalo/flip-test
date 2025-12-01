@@ -1,3 +1,4 @@
+
 # Flip Full Stack Technical Test
 
 ## Table of Contents
@@ -6,6 +7,7 @@
 - [Architecture Decisions](#architecture-decisions)
 - [Endpoints](#endpoints)
 - [Test Files](#test-files)
+- [Demo Video](#demo-video)
 
 ## Description
 This application allows users upload a bank statement file, view insights, and
@@ -256,3 +258,8 @@ The root directory contains several CSV files that can be used for testing the a
 -   `test_bank_statement.csv`: A standard bank statement with various transaction types.
 -   `test_invalid_bank_statement.csv`: Contains invalid data to test error handling.
 -   `test_negative_bank_statement.csv`: Contains transactions that result in a negative balance.
+
+## Demo Video
+
+https://github.com/user-attachments/assets/2ae8607c-4d8d-4bb2-a94b-d87df50ac595
+
