@@ -58,6 +58,20 @@ func (s *transactionService) UploadCSVFile(ctx context.Context, fileContent []by
 		return 0, err
 	}
 
+	existingTransactions, err := s.transactionRepo.GetAll()
+	if err != nil {
+		s.logger.ErrorWithContext(ctx, "[UploadCSVFile] Failed to retrieve existing transactions", zap.Error(err))
+		return 0, oops.
+			Code(httpresp.ServerError.AsString()).
+			With(httpresp.StatusCodeCtxKey, http.StatusInternalServerError).
+			With("error", err.Error()).
+			Errorf("failed to retrieve transactions")
+	}
+
+	if len(existingTransactions) > 0 {
+		s.transactionRepo.Clear()
+	}
+
 	err = s.transactionRepo.SaveBulk(transactions)
 	if err != nil {
 		s.logger.ErrorWithContext(ctx, "[UploadCSVFile] Error SaveBulk", zap.Error(err))
@@ -151,20 +165,6 @@ func (s *transactionService) parseCsvFile(ctx context.Context, records [][]strin
 				With("line", i+1).
 				With("status", status).
 				Errorf("invalid status at line %d: must be SUCCESS, FAILED, or PENDING", i+1)
-		}
-
-		existingTransactions, err := s.transactionRepo.GetAll()
-		if err != nil {
-			s.logger.ErrorWithContext(ctx, "[UploadCSVFile] Failed to retrieve existing transactions", zap.Error(err))
-			return nil, oops.
-				Code(httpresp.ServerError.AsString()).
-				With(httpresp.StatusCodeCtxKey, http.StatusInternalServerError).
-				With("error", err.Error()).
-				Errorf("failed to retrieve transactions")
-		}
-
-		if len(existingTransactions) > 0 {
-			s.transactionRepo.Clear()
 		}
 
 		transaction := &model.Transaction{

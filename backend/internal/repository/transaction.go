@@ -46,7 +46,12 @@ func (r *transactionRepository) GetUnsuccessfulTransactions(filter entity.GetIss
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
+	if len(r.transactions) == 0 {
+		return []*model.Transaction{}, 0, nil
+	}
+
 	unsuccessfulTransactions := make([]*model.Transaction, 0)
+
 	for _, tx := range r.transactions {
 		if tx.Status == "FAILED" || tx.Status == "PENDING" {
 			unsuccessfulTransactions = append(unsuccessfulTransactions, tx)
@@ -84,7 +89,7 @@ func (r *transactionRepository) GetUnsuccessfulTransactions(filter entity.GetIss
 
 	totalCount := int64(len(unsuccessfulTransactions))
 
-	offset := (filter.Page - 1) * filter.GetPageSizeWithDefault()
+	offset := (filter.GetPageWithDefault() - 1) * filter.GetPageSizeWithDefault()
 	limit := filter.GetPageSizeWithDefault()
 
 	if offset >= len(unsuccessfulTransactions) {
